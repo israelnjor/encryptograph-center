@@ -1,5 +1,5 @@
 // admin.js & user.js
-const API_URL = "/api/notifications";
+const API_URL = "/api/notifications"; // relative path works locally & on Render
 
 // Fetch all notifications
 async function fetchNotifications() {
@@ -67,3 +67,4 @@ async function deleteNotification(id) {
 
 // Initial fetch
 fetchNotifications();
+
