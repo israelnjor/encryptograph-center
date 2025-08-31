@@ -1,5 +1,5 @@
 // Replace with your server's local IP and port
-const API_URL = "/api/notifications"; // ✅ relative path, no localhost needed
+const API_URL = "/api/notifications"; // relative path works locally & on Render
 
 // Fetch and display notifications for users
 async function fetchNotifications() {
@@ -31,3 +31,4 @@ async function fetchNotifications() {
 // Initial fetch + refresh every 5 seconds
 fetchNotifications();
 setInterval(fetchNotifications, 5000);
+
