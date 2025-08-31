@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Notification System</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .notification { border: 1px solid #ccc; padding: 10px; margin: 5px; }
+    button { margin-left: 10px; }
+  </style>
+</head>
+<body>
+  <h1>📢 Notification Center</h1>
+
+  <div>
+    <input type="text" id="messageInput" placeholder="Enter notification">
+    <button onclick="addNotification()">Add</button>
+    <button onclick="clearNotifications()">Clear All</button>
+  </div>
+
+  <h2>Notifications</h2>
+  <div id="notifications"></div>
+
+  <script>
+    const API_URL = "http://localhost:5000";
+
+    async function fetchNotifications() {
+      const res = await fetch(`${API_URL}/all`);
+      const data = await res.json();
+      const container = document.getElementById("notifications");
+      container.innerHTML = "";
+      data.forEach(note => {
+        container.innerHTML += `
+          <div class="notification">
+            ${note.message} - <small>${new Date(note.date).toLocaleString()}</small>
+            <button onclick="deleteNotification('${note._id}')">Delete</button>
+          </div>`;
+      });
+    }
+
+    async function addNotification() {
+      const message = document.getElementById("messageInput").value;
+      if (!message) return alert("Enter a message!");
+      await fetch(`${API_URL}/add`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message })
+      });
+      document.getElementById("messageInput").value = "";
+      fetchNotifications();
+    }
+
+    async function deleteNotification(id) {
+      await fetch(`${API_URL}/delete/${id}`, { method: "DELETE" });
+      fetchNotifications();
+    }
+
+    async function clearNotifications() {
+      await fetch(`${API_URL}/clear`, { method: "DELETE" });
+      fetchNotifications();
+    }
+
+    fetchNotifications();
+  </script>
+</body>
+</html>
