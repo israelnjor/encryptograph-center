@@ -2,29 +2,30 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const path = require("path");
 const Notification = require("./models/Notification");
 
 const app = express();
 
-// Middleware
+// ----------------- MIDDLEWARE -----------------
 app.use(cors());
 app.use(bodyParser.json()); // Parse JSON bodies
 
-// Serve frontend files from public folder
-app.use(express.static("public"));
+// Serve static frontend files from 'public' folder
+app.use(express.static(path.join(__dirname, "public")));
 
-// Connect to MongoDB
+// ----------------- DATABASE CONNECTION -----------------
 mongoose.connect("mongodb://127.0.0.1:27017/notifications", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
 mongoose.connection.on("connected", () => {
-  console.log("MongoDB connected successfully");
+  console.log("✅ MongoDB connected successfully");
 });
 
 mongoose.connection.on("error", (err) => {
-  console.error("MongoDB connection error:", err);
+  console.error("❌ MongoDB connection error:", err);
 });
 
 // ----------------- API ROUTES -----------------
@@ -43,9 +44,14 @@ app.get("/api/notifications", async (req, res) => {
 app.post("/api/notifications", async (req, res) => {
   try {
     const { message, type } = req.body;
-    if (!message || !type) return res.status(400).json({ error: "Message and type required" });
+    if (!message || !type) {
+      return res.status(400).json({ error: "Message and type are required" });
+    }
 
-    const notification = new Notification({ message, type: type.toLowerCase() });
+    const notification = new Notification({ 
+      message, 
+      type: type.toLowerCase() 
+    });
     await notification.save();
     res.json(notification);
   } catch (err) {
@@ -63,7 +69,12 @@ app.delete("/api/notifications/:id", async (req, res) => {
   }
 });
 
-// ----------------- START SERVER -----------------
+// ----------------- FALLBACK (Single Page Apps) -----------------
+// If no API route matches, serve index.html (useful for frontend routing)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
 
-const PORT = 5000;
-app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
+// ----------------- START SERVER -----------------
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`🚀 Server running at http://localhost:${PORT}`));
