@@ -1,5 +1,5 @@
 // Replace with your server's local IP and port
-const API_URL = "/api/notifications"; // ✅ relative path, no localhost needed
+const API_URL = "https://encryptograph-center-3kwc.onrender.com/api/notifications";
 
 // Fetch and display notifications for users
 async function fetchNotifications() {
