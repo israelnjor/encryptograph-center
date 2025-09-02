@@ -1,5 +1,5 @@
 // admin.js & user.js
-const API_URL = "https://encryptograph-center-3kwc.onrender.com/api/notifications";
+    const API_URL = "http://localhost:5000";
 
 // Fetch all notifications
 async function fetchNotifications() {
