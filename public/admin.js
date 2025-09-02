@@ -1,5 +1,5 @@
 // admin.js & user.js
-    const API_URL = "http://localhost:5000";
+fetch("http://localhost:5000/api/notifications")
 
 // Fetch all notifications
 async function fetchNotifications() {
