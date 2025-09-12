@@ -1,5 +1,4 @@
-// admin.js & user.js
-fetch("http://localhost:5000/api/notifications")
+const API_URL = "https://encryptograph-center-3kwc.onrender.com/api/notifications";
 
 // Fetch all notifications
 async function fetchNotifications() {
@@ -25,7 +24,7 @@ async function fetchNotifications() {
         });
     } catch (err) {
         console.error("Error fetching notifications:", err);
-        alert("Could not fetch notifications. Is the server running?");
+        alert("Could not fetch notifications.");
     }
 }
 

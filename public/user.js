@@ -1,4 +1,3 @@
-// Replace with your server's local IP and port
 const API_URL = "https://encryptograph-center-3kwc.onrender.com/api/notifications";
 
 // Fetch and display notifications for users
@@ -8,21 +7,19 @@ async function fetchNotifications() {
         const data = await res.json();
 
         const container = document.getElementById("notifications");
-        container.innerHTML = ""; // Clear previous notifications
+        container.innerHTML = "";
 
         data.forEach(n => {
             const div = document.createElement("div");
-            div.className = `notification ${n.type}`; // color based on type
+            div.className = `notification ${n.type}`;
             const time = new Date(n.createdAt).toLocaleString();
             div.innerHTML = `<b>[${n.type}]</b> ${n.message} <span class="timestamp">${time}</span>`;
             container.appendChild(div);
         });
 
-        // Auto-scroll to the newest notification
         if (container.lastChild) {
             container.lastChild.scrollIntoView({ behavior: "smooth" });
         }
-
     } catch (err) {
         console.error("Error fetching notifications:", err);
     }
