@@ -2,25 +2,146 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>User - Notifications</title>
+  <title>Notifications</title>
   <style>
-body { font-family: Arial; margin: 20px; }
-.notification { border: 1px solid #ddd; padding: 10px; margin: 5px 0; border-radius: 5px; }
-.notification.info { background-color: #e7f3fe; border-color: #2196F3; color: #0b3d91; }
-.notification.success { background-color: #e6f4ea; border-color: #4CAF50; color: #2e7d32; }
-.notification.warning { background-color: #fff8e1; border-color: #ff9800; color: #b26a00; }
-.notification.error { background-color: #fdecea; border-color: #f44336; color: #a80000; }
-button { margin-left: 10px; }
-input, select { padding: 5px; margin-right: 5px; }
-.timestamp { font-size: 0.8em; color: #555; margin-left: 10px; }
-</style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f9fafb;
+      color: #333;
+    }
 
+    h1 {
+      color: #0b3d91;
+      margin-bottom: 15px;
+      /* display: flex; */
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    select {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      flex: 1;
+    }
+
+    .notification {
+      border: 1px solid #ddd;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .notification .timestamp {
+      font-size: 0.8em;
+      color: #555;
+      margin-top: 4px;
+      display: block;
+    }
+
+    .notification.info {
+      background-color: #eef6ff;
+      border-color: #2196F3;
+      color: #0b3d91;
+    }
+
+    .notification.success {
+      background-color: #edf7ed;
+      border-color: #4CAF50;
+      color: #2e7d32;
+    }
+
+    .notification.warning {
+      background-color: #fff8e6;
+      border-color: #ff9800;
+      color: #b26a00;
+    }
+
+    .notification.error {
+      background-color: #fdecea;
+      border-color: #f44336;
+      color: #a80000;
+    }
+
+    footer {
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #959494;
+    }
+  </style>
 </head>
 <body>
+  <div>
+    <h1>📢 Notifications</h1>
+    </div>
+  <div class="controls">
+    <select id="filterSelect">
+      <option value="all">All</option>
+      <option value="info">Info</option>
+      <option value="success">Success</option>
+      <option value="warning">Warning</option>
+      <option value="error">Error</option>
+    </select>
+  </div>
 
-<h1>User Notifications</h1>
-<div id="notifications"></div>
+  <div id="notifications"></div>
 
-<script src="user.js"></script>
+  <footer>
+    &copy; encryptograph-center
+  </footer>
+
+  <!-- Backend logic untouched -->
+  <script src="user.js"></script>
+  <script>
+    (function () {
+      const filterSelect = document.getElementById('filterSelect');
+      const list = document.getElementById('notifications');
+
+      // restore saved filter
+      let currentFilter = localStorage.getItem('notifFilter') || 'all';
+      filterSelect.value = currentFilter;
+
+      function applyFilter() {
+        currentFilter = filterSelect.value;
+        localStorage.setItem('notifFilter', currentFilter);
+
+        const items = list.querySelectorAll('.notification');
+        items.forEach(item => {
+          const type = [...item.classList].find(c =>
+            ['info','success','warning','error'].includes(c)
+          );
+          if (currentFilter === 'all' || type === currentFilter) {
+            item.style.display = '';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      }
+
+      filterSelect.addEventListener('change', applyFilter);
+
+      // ✅ Observe changes from user.js auto-refresh
+      const mo = new MutationObserver(() => {
+        applyFilter();
+        // 🚫 no auto-scroll — keep user where they are
+      });
+      mo.observe(list, { childList: true, subtree: true });
+
+      // initial run
+      applyFilter();
+    })();
+  </script>
 </body>
 </html>

@@ -17,9 +17,10 @@ async function fetchNotifications() {
             container.appendChild(div);
         });
 
-        if (container.lastChild) {
-            container.lastChild.scrollIntoView({ behavior: "smooth" });
-        }
+        // ✅ Always keep scroll at the top after refresh
+        container.scrollTop = 0;
+        window.scrollTo({ top: 0, behavior: "instant" });
+
     } catch (err) {
         console.error("Error fetching notifications:", err);
     }

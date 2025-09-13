@@ -1,37 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Admin Panel</title>
-<style>
-body { font-family: Arial; margin: 20px; }
-.notification { border: 1px solid #ddd; padding: 10px; margin: 5px 0; border-radius: 5px; }
-.notification.info { background-color: #e7f3fe; border-color: #2196F3; color: #0b3d91; }
-.notification.success { background-color: #e6f4ea; border-color: #4CAF50; color: #2e7d32; }
-.notification.warning { background-color: #fff8e1; border-color: #ff9800; color: #b26a00; }
-.notification.error { background-color: #fdecea; border-color: #f44336; color: #a80000; }
-button { margin-left: 10px; }
-input, select { padding: 5px; margin: 5px 0; }
-.timestamp { font-size: 0.8em; color: #555; margin-left: 10px; }
-</style>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f9fafb;
+      color: #333;
+    }
+
+    h1 {
+      color: #0b3d91;
+      margin-bottom: 15px;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    input, select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      min-height: 30PX;
+      flex: 1;
+      min-width: 160px;
+    }
+
+    button {
+      background: #0b3d91;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.2s ease;
+      white-space: nowrap;
+    }
+
+    button:hover {
+      background: #094080;
+    }
+
+    h2 {
+      margin-top: 30px;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 5px;
+    }
+
+    .notification {
+      border: 1px solid #ddd;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .notification .content {
+      flex: 1;
+    }
+
+    .notification .timestamp {
+      font-size: 0.8em;
+      color: #555;
+      margin-top: 4px;
+      display: block;
+    }
+
+    .notification.info {
+      background-color: #e7f3fe;
+      border-color: #2196F3;
+      color: #0b3d91;
+    }
+
+    .notification.success {
+      background-color: #e6f4ea;
+      border-color: #4CAF50;
+      color: #2e7d32;
+    }
+
+    .notification.warning {
+      background-color: #fff8e1;
+      border-color: #ff9800;
+      color: #b26a00;
+    }
+
+    .notification.error {
+      background-color: #fdecea;
+      border-color: #f44336;
+      color: #a80000;
+    }
+
+    .notification button {
+      background: transparent;
+      color: inherit;
+      border: 1px solid currentColor;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 12px;
+    }
+
+    .notification button:hover {
+      background: rgba(0,0,0,0.05);
+    }
+
+    /* 📱 Mobile responsiveness */
+    @media (max-width: 600px) {
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      input, select, button {
+        width: 100%;
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Admin Panel</h1>
+  <h1>⚙️ Admin Panel</h1>
 
   <div class="controls">
     <input type="text" id="messageInput" placeholder="Enter message">
     <select id="typeSelect">
-      <option value="info">info</option>
-      <option value="success">success</option>
-      <option value="warning">warning</option>
-      <option value="error">error</option>
+      <option value="info">Info</option>
+      <option value="success">Success</option>
+      <option value="warning">Warning</option>
+      <option value="error">Error</option>
     </select>
-    <button onclick="addNotification()">Add Notification</button>
+    <button onclick="addNotification()">➕ Add Notification</button>
   </div>
 
   <h2>All Notifications</h2>
   <div id="notifications"></div>
 
+  <!-- Backend logic untouched -->
   <script src="admin.js"></script>
 </body>
 </html>
