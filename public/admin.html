@@ -10,139 +10,85 @@
       background: #f9fafb;
       color: #333;
     }
-
-    h1 {
-      color: #0b3d91;
-      margin-bottom: 15px;
-    }
-
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
+    h1 { color: #0b3d91; margin-bottom: 15px; }
+    .controls { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
     input, select {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-      min-height: 30PX;
-      flex: 1;
-      min-width: 160px;
+      padding: 10px; border: 1px solid #ccc; border-radius: 6px;
+      font-size: 14px; min-height: 30PX; flex: 1; min-width: 160px;
     }
-
     button {
-      background: #0b3d91;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background 0.2s ease;
-      white-space: nowrap;
+      background: #0b3d91; color: white; border: none;
+      padding: 10px 15px; border-radius: 6px; cursor: pointer;
+      font-size: 14px; transition: background 0.2s ease; white-space: nowrap;
     }
-
-    button:hover {
-      background: #094080;
-    }
-
-    h2 {
-      margin-top: 30px;
-      border-bottom: 2px solid #eee;
-      padding-bottom: 5px;
-    }
-
+    button:hover { background: #094080; }
+    h2 { margin-top: 30px; border-bottom: 2px solid #eee; padding-bottom: 5px; }
     .notification {
-      border: 1px solid #ddd;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      border: 1px solid #ddd; padding: 12px; margin: 10px 0;
+      border-radius: 8px; display: flex; justify-content: space-between;
+      align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
-
-    .notification .content {
-      flex: 1;
-    }
-
-    .notification .timestamp {
-      font-size: 0.8em;
-      color: #555;
-      margin-top: 4px;
-      display: block;
-    }
-
-    .notification.info {
-      background-color: #e7f3fe;
-      border-color: #2196F3;
-      color: #0b3d91;
-    }
-
-    .notification.success {
-      background-color: #e6f4ea;
-      border-color: #4CAF50;
-      color: #2e7d32;
-    }
-
-    .notification.warning {
-      background-color: #fff8e1;
-      border-color: #ff9800;
-      color: #b26a00;
-    }
-
-    .notification.error {
-      background-color: #fdecea;
-      border-color: #f44336;
-      color: #a80000;
-    }
-
+    .notification .timestamp { font-size: 0.8em; color: #555; margin-top: 4px; display: block; }
+    .notification.info { background-color: #e7f3fe; border-color: #2196F3; color: #0b3d91; }
+    .notification.success { background-color: #e6f4ea; border-color: #4CAF50; color: #2e7d32; }
+    .notification.warning { background-color: #fff8e1; border-color: #ff9800; color: #b26a00; }
+    .notification.error { background-color: #fdecea; border-color: #f44336; color: #a80000; }
     .notification button {
-      background: transparent;
-      color: inherit;
-      border: 1px solid currentColor;
-      border-radius: 4px;
-      padding: 4px 8px;
-      font-size: 12px;
+      background: transparent; color: inherit; border: 1px solid currentColor;
+      border-radius: 4px; padding: 4px 8px; font-size: 12px;
     }
-
-    .notification button:hover {
-      background: rgba(0,0,0,0.05);
-    }
-
-    /* 📱 Mobile responsiveness */
+    .notification button:hover { background: rgba(0,0,0,0.05); }
     @media (max-width: 600px) {
-      .controls {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      input, select, button {
-        width: 100%;
-        font-size: 16px;
-      }
+      .controls { flex-direction: column; align-items: stretch; }
+      input, select, button { width: 100%; font-size: 16px; }
     }
+    /* Login screen */
+    #loginScreen { max-width: 300px; margin: 80px auto; text-align: center; }
+    #loginScreen input { width: 100%; margin: 8px 0; }
   </style>
 </head>
 <body>
   <h1>⚙️ Admin Panel</h1>
 
-  <div class="controls">
-    <input type="text" id="messageInput" placeholder="Enter message">
-    <select id="typeSelect">
-      <option value="info">Info</option>
-      <option value="success">Success</option>
-      <option value="warning">Warning</option>
-      <option value="error">Error</option>
-    </select>
-    <button onclick="addNotification()">➕ Add Notification</button>
+  <!-- 🔐 Login Screen -->
+  <div id="loginScreen">
+    <h2>Admin Login</h2>
+    <input type="text" id="loginUser" placeholder="Enter username">
+    <input type="password" id="loginPass" placeholder="Enter password">
+    <button onclick="login()">Login</button>
+    <p style="color:red; display:none;" id="loginError">Invalid credentials!</p>
   </div>
 
-  <h2>All Notifications</h2>
-  <div id="notifications"></div>
+  <!-- 🔑 Main Admin Panel (hidden until login) -->
+  <div id="mainPanel" style="display:none;">
+    <div class="controls">
+      <input type="text" id="messageInput" placeholder="Enter message">
+      <select id="typeSelect">
+        <option value="info">Info</option>
+        <option value="success">Success</option>
+        <option value="warning">Warning</option>
+        <option value="error">Error</option>
+      </select>
+      <button onclick="addNotification()">➕ Add Notification</button>
+    </div>
+
+    <div class="controls">
+      <label for="adminFilter"><b>Filter by Admin:</b></label>
+      <select id="adminFilter">
+        <option value="all">All</option>
+        <option value="israel">Israel</option>
+        <option value="margaret">Margaret</option>
+        <option value="emefa">Emefa</option>
+        <option value="vincent">Vincent</option>
+        <option value="saidat">Saidat</option>
+        <option value="richard">Richard</option>
+        <option value="afia">Afia</option>
+      </select>
+    </div>
+
+    <h2>All Notifications</h2>
+    <div id="notifications"></div>
+  </div>
 
   <!-- Backend logic untouched -->
   <script src="admin.js"></script>
