@@ -1,5 +1,5 @@
 // --- Admin login helpers (added at top) ---
-const ADMINS = ["israel","margaret","emefa","vincent","saidat","richard","afia"];
+const ADMINS = ["israel","margaret","emefa","vincent","saidat","richard","afia","Isaac"];
 const PASSWORD = "123";
 let currentAdmin = sessionStorage.getItem('currentAdmin') || null;
 
@@ -54,7 +54,7 @@ async function fetchNotifications() {
     const filter = (document.getElementById("adminFilter")?.value || "all").toLowerCase();
 
     data.forEach(n => {
-      const nAdmin = (n.admin || "unknown").toLowerCase();
+      const nAdmin = (n.admin || "Israel").toLowerCase();
       if (filter !== "all" && nAdmin !== filter) return;
 
       const div = document.createElement("div");
@@ -63,7 +63,7 @@ async function fetchNotifications() {
 
       div.innerHTML = `<div class="content">
         <b>[${n.type}]</b> ${n.message}
-        <span class="timestamp">${time} | by <i>${n.admin || "unknown"}</i></span>
+        <span class="timestamp">${time} | by <i>${n.admin || "Israel"}</i></span>
       </div>`;
 
       const btn = document.createElement("button");
@@ -90,7 +90,7 @@ async function addNotification() {
     const res = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message, type, admin: currentAdmin || "unknown" })
+      body: JSON.stringify({ message, type, admin: currentAdmin || "Israel" })
     });
 
     if (!res.ok) throw new Error(await res.text());
