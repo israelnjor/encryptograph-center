@@ -1,5 +1,5 @@
 // --- Admin login helpers (added at top) ---
-const ADMINS = ["israel","margaret","emefa","vincent","saidat","richard","afia","Isaac"];
+const ADMINS = ["israel","margaret","emefa","vincent","saidat","richard","afia","isaac"];
 const PASSWORD = "123";
 let currentAdmin = sessionStorage.getItem('currentAdmin') || null;
 
